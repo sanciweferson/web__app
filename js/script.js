@@ -14,3 +14,17 @@ function loadHeader() {
 }
 
 loadHeader();
+
+
+
+function loadFooter() {
+  fetch("footer.html")
+    .then((res) => res.text())
+    .then((data) => {
+      const container = document.createElement("footer")
+      container.innerHTML = data
+      document.body.prepend(container)
+    })
+}
+
+loadFooter()

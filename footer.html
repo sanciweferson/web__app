@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link rel="stylesheet" href="style.css" />
+
+
+
+  </head>
+  <body>
+  <footer>
+     <ul class="nav__list">
+                <li class="nav__item">
+                  <a href="index.html" class="menu__link">
+                    <i class="fa-solid fa-house"></i><span>Home</span>
+                  </a>
+                </li>
+                <li class="nav__item">
+                  <a href="#features" class="menu__link">
+                    <i class="fa-solid fa-star"></i> <span> Features</span>
+                  </a>
+                </li>
+                <li class="nav__item">
+                  <a href="#preview" class="menu__link">
+                    <i class="fa-solid fa-image"></i><span> Preview</span>
+                  </a>
+                </li>
+                <li class="nav__item">
+                  <a href="details.html" class="menu__link">
+                    <i class="fa-solid fa-circle-info"></i><span>Details</span>
+                  </a>
+                </li>
+                <li class="nav__item">
+                  <a href="#download" class="menu__link">
+                    <i class="fa-solid fa-download"> </i><span>Download</span>
+                  </a>
+                </li>
+                 <li class="nav__item">
+                  <a href="contact.html" class="menu__link">
+                    <i class="fa-solid fa-download"> </i><span>Contato</span>
+                  </a>
+                </li>
+                </ul>
+  </footer>
+    <script src="js/script.js"></script>
+    <script type="module">
+      import { initMenu } from "./js/mobile/menuEvents.js"
+      import { initTheme } from "./js/theme/theme.init.js"
+
+      window.onload = () => {
+        initTheme()
+        initMenu() // agora vai abrir o menu corretamente se estava aberto antes
+      }
+    </script>
+
+
+  </body>
+</html>
