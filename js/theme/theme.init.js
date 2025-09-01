@@ -30,19 +30,14 @@ const setupThemeButton = (buttonId) => {
 const initDesktopThemeToggle = () => setupThemeButton("toggle__desktop")
 const initMobileThemeToggle = () => setupThemeButton("toggle__mobile")
 
+// Inicializa todo o sistema de tema
 export const initTheme = () => {
   applyEffectiveTheme() // Aplica o tema primeiro
 
   // Espera o DOM aplicar o tema antes de configurar os botões
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => {
-      initDesktopThemeToggle()
-      initMobileThemeToggle()
-      setupSystemThemeObserver()
-    })
-  } else {
-    initDesktopThemeToggle()
-    initMobileThemeToggle()
-    setupSystemThemeObserver()
-  }
+  setTimeout(() => {
+    initDesktopThemeToggle() // Configura botão desktop
+    initMobileThemeToggle() // Configura botão mobile
+    setupSystemThemeObserver() // Observa mudanças do sistema
+  }, 50) // 50ms é suficiente para sincronizar com o DOM
 }
