@@ -19,19 +19,25 @@ export const getSystemPrefersDark = () =>
 export const updateTheme = (isDark) => {
   htmlElement.setAttribute("data-theme", isDark ? "dark" : "light")
 
-  document
-    .querySelectorAll(".icon-moon")
-    .forEach((el) => el.classList.toggle("hidden", isDark))
-  document
-    .querySelectorAll(".icon-sun")
-    .forEach((el) => el.classList.toggle("hidden", !isDark))
+  const moons = document.querySelectorAll(".icon-moon")
+  const suns = document.querySelectorAll(".icon-sun")
+
+  moons.forEach((el) => el.classList.toggle("hidden", isDark))
+  suns.forEach((el) => el.classList.toggle("hidden", !isDark))
 }
 
 export const applyEffectiveTheme = () => {
   const stored = getStoredUserPrefersDark()
   userPrefersDark = stored
   const isDark = stored !== null ? stored : getSystemPrefersDark()
-  updateTheme(isDark)
+
+  const update = () => updateTheme(isDark)
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", update)
+  } else {
+    update()
+  }
 }
 
 export const toggleTheme = () => {
