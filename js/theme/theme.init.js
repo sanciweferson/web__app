@@ -4,6 +4,7 @@ import {
   setupSystemThemeObserver,
 } from "./theme.core.js"
 
+// Função auxiliar para configurar os botões de tema
 const setupThemeButton = (buttonId) => {
   const button = document.getElementById(buttonId)
   if (!button) return
@@ -29,9 +30,14 @@ const setupThemeButton = (buttonId) => {
 const initDesktopThemeToggle = () => setupThemeButton("toggle__desktop")
 const initMobileThemeToggle = () => setupThemeButton("toggle__mobile")
 
+// Inicializa todo o sistema de tema
 export const initTheme = () => {
-  applyEffectiveTheme() // aplica tema primeiro
-  initDesktopThemeToggle() // depois configura botão desktop
-  initMobileThemeToggle() // depois configura botão mobile
-  setupSystemThemeObserver() // observa mudanças do sistema
+  applyEffectiveTheme() // Aplica o tema primeiro
+
+  // Espera o DOM aplicar o tema antes de configurar os botões
+  setTimeout(() => {
+    initDesktopThemeToggle() // Configura botão desktop
+    initMobileThemeToggle() // Configura botão mobile
+    setupSystemThemeObserver() // Observa mudanças do sistema
+  }, 50) // 50ms é suficiente para sincronizar com o DOM
 }
