@@ -1,82 +1,47 @@
-// ===================================================
-// B1 - ELEMENTO BASE
-// ===================================================
-export const htmlElement = document.documentElement
-export let userPrefersDark = null
+// theme.init.js
+import {
+  applyEffectiveTheme,
+  toggleTheme,
+  setupSystemThemeObserver,
+} from "./theme.core.js"
 
 // ===================================================
-// B2 - SALVAR PREFERÊNCIA DO USUÁRIO
+// Função auxiliar (usada para desktop e mobile)
 // ===================================================
-export const setUserPrefersDark = (value) => {
-  userPrefersDark = value
-  localStorage.setItem("darkMode", value.toString())
-}
+const setupThemeButton = (buttonId) => {
+  const button = document.getElementById(buttonId)
+  if (!button) return
 
-// ===================================================
-// B3 - LER PREFERÊNCIA DO USUÁRIO
-// ===================================================
-export const getStoredUserPrefersDark = () => {
-  const stored = localStorage.getItem("darkMode")
-  if (stored === "true") return true
-  if (stored === "false") return false
-  return null
-}
-
-// ===================================================
-// B4 - DETECTAR PREFERÊNCIA DO SISTEMA
-// ===================================================
-export const getSystemPrefersDark = () =>
-  window.matchMedia("(prefers-color-scheme: dark)").matches
-
-// ===================================================
-// B5 - APLICAR O TEMA E ATUALIZAR ÍCONES
-// ===================================================
-export const updateTheme = (isDark) => {
-  htmlElement.setAttribute("data-theme", isDark ? "dark" : "light")
-
-  document
-    .querySelectorAll(".icon-moon")
-    .forEach((el) => el.classList.toggle("hidden", isDark))
-  document
-    .querySelectorAll(".icon-sun")
-    .forEach((el) => el.classList.toggle("hidden", !isDark))
-}
-
-// ===================================================
-// B6 - ESCOLHER O TEMA (USUÁRIO > SISTEMA)
-// ===================================================
-export const applyEffectiveTheme = () => {
-  const stored = getStoredUserPrefersDark()
-  userPrefersDark = stored
-  const isDark = stored !== null ? stored : getSystemPrefersDark()
-  updateTheme(isDark)
-}
-
-// ===================================================
-// B7 - ALTERNAR O TEMA AO CLICAR
-// ===================================================
-export const toggleTheme = () => {
-  const currentTheme = htmlElement.getAttribute("data-theme")
-  const newIsDark = currentTheme !== "dark"
-  setUserPrefersDark(newIsDark)
-  updateTheme(newIsDark)
-}
-
-// ===================================================
-// B8 - OBSERVAR MUDANÇAS DO TEMA DO SISTEMA
-// ===================================================
-export const setupSystemThemeObserver = () => {
-  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
-
-  const onSystemThemeChange = (e) => {
-    if (userPrefersDark === null) {
-      updateTheme(e.matches)
-    }
+  const updateAriaLabel = (isDark) => {
+    button.setAttribute(
+      "aria-label",
+      isDark ? "Alternar para tema claro" : "Alternar para tema escuro"
+    )
   }
 
-  if (mediaQuery.addEventListener) {
-    mediaQuery.addEventListener("change", onSystemThemeChange)
-  } else {
-    mediaQuery.addListener(onSystemThemeChange)
-  }
+  button.addEventListener("click", () => {
+    toggleTheme()
+    const isDark =
+      document.documentElement.getAttribute("data-theme") === "dark"
+    updateAriaLabel(isDark)
+  })
+
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark"
+  updateAriaLabel(isDark)
+}
+
+// ===================================================
+// Botões desktop e mobile
+// ===================================================
+const initDesktopThemeToggle = () => setupThemeButton("toggle__desktop")
+const initMobileThemeToggle = () => setupThemeButton("toggle__mobile")
+
+// ===================================================
+// Inicializa todo o sistema de tema
+// ===================================================
+export const initTheme = () => {
+  applyEffectiveTheme() // aplica o tema primeiro
+  initDesktopThemeToggle() // depois inicializa botão desktop
+  initMobileThemeToggle() // inicializa botão mobile
+  setupSystemThemeObserver() // por último, observa mudanças do sistema
 }
