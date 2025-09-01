@@ -4,9 +4,6 @@ import {
   setupSystemThemeObserver,
 } from "./theme.core.js"
 
-// ===================================================
-// Função auxiliar (usada em B9 e B10)
-// ===================================================
 const setupThemeButton = (buttonId) => {
   const button = document.getElementById(buttonId)
   if (!button) return
@@ -29,26 +26,12 @@ const setupThemeButton = (buttonId) => {
   updateAriaLabel(isDark)
 }
 
-// ===================================================
-// B9 - BOTÃO DO DESKTOP
-// ===================================================
-const initDesktopThemeToggle = () => {
-  setupThemeButton("toggle__desktop")
-}
+const initDesktopThemeToggle = () => setupThemeButton("toggle__desktop")
+const initMobileThemeToggle = () => setupThemeButton("toggle__mobile")
 
-// ===================================================
-// B10 - BOTÃO DO MOBILE
-// ===================================================
-const initMobileThemeToggle = () => {
-  setupThemeButton("toggle__mobile")
-}
-
-// ===================================================
-// B11 - INICIALIZAR TODO O SISTEMA DE TEMA
-// ===================================================
 export const initTheme = () => {
-  initDesktopThemeToggle() // B9
-  initMobileThemeToggle() // B10
-  applyEffectiveTheme() // B6
-  setupSystemThemeObserver() // B8
+  applyEffectiveTheme() // aplica tema primeiro
+  initDesktopThemeToggle() // depois configura botão desktop
+  initMobileThemeToggle() // depois configura botão mobile
+  setupSystemThemeObserver() // observa mudanças do sistema
 }
